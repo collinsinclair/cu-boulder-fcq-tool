@@ -1,11 +1,10 @@
 {
   "name": "cu-boulder-fcq-tool",
-  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "navbar-footer.js",
   "scripts": {
-    "start": "nodemon --experimental-json-modules --exec babel-node index.js",
+    "start": "nodemon --experimental-json-modules --exec babel-node pg_connect.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,5 +23,8 @@
     "@babel/core": "^7.17.5",
     "@babel/node": "^7.16.8",
     "@babel/preset-env": "^7.16.11"
+  },
+  "dependencies": {
+    "pg": "^8.7.3"
   }
 }
