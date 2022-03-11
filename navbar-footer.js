@@ -24,9 +24,9 @@ function addNavbar() {
 
         </ul>
         <a href="./signin.html">
-        <button class="d-flex btn btn-primary" type="button" id="log-in-sign-up">
+        <a class="d-flex btn btn-primary" type="button" id="log-in-sign-up" href="./login.html">
             Log In | Sign Up
-        </button>
+        </a>
         </a>
     </div>
 </div>
