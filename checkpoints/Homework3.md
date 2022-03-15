@@ -24,3 +24,6 @@ The PostgreSQL server is up and running on my labtop, along with the table of FC
 
 ## Demo
 
+[FCQ Database](https://github.com/collinsinclair/cu-boulder-fcq-tool/blob/main/checkpoints/fcq-database.png)
+
+[FCQ Database Example](https://github.com/collinsinclair/cu-boulder-fcq-tool/blob/main/checkpoints/fcq-database-example.png)
