@@ -30,4 +30,4 @@ The PostgreSQL server is up and running on my labtop, along with the table of FC
 
 ![Login Page](https://github.com/collinsinclair/cu-boulder-fcq-tool/blob/main/checkpoints/login.png)
 
-![Password Suggestion](https://github.com/collinsinclair/cu-boulder-fcq-tool/blob/main/checkpoints/login.png)
+![Password Suggestion](https://github.com/collinsinclair/cu-boulder-fcq-tool/blob/main/checkpoints/password-suggestion.png)
