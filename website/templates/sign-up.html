@@ -3,27 +3,31 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-<form action="" method="POST">
-    <h3 class="text-center my-3">Sign Up</h3>
-
-    <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
-        <div id="usernameNote" class="form-text">Username must be at least eight (8) characters.</div>
+<div class="container">
+    <div class="row">
+        <div class="col-6 mx-auto">
+            <form action="" method="POST">
+                <h3 class="text-center my-5">Welcome, {{ username }}</h3>
+                <p class="lead text-center">Create an account to store schedules, etc.</p>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" value="{{ username }}">
+                    <div id="usernameNote" class="form-text">Username must be at least eight (8) characters.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password1" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password1" name="password1"
+                           placeholder="Enter password">
+                    <div id="passwordNote" class="form-text">Password must be at least eight (8) characters.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password2" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="password2" name="password2"
+                           placeholder="Confirm password">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label for="password1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password1" name="password1" placeholder="Enter password">
-        <div id="passwordNote" class="form-text">Password must be at least eight (8) characters.</div>
-    </div>
-
-    <div class="mb-3">
-        <label for="password2" class="form-label">Confirm Password</label>
-        <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm password">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-
-</form>
+</div>
 {% endblock %}
