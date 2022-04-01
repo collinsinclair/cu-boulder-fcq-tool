@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<form class="my-3 row g-3">
+    <div class="col">
+        <label for="main-search" class="visually-hidden">Search</label>
+        <input type="search" class="form-control" id="main-search"
+               placeholder="Enter a CU Boulder Identifier">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3"><i class="bi bi-search"> </i>Submit</button>
+    </div>
+</form>
+<div class="bg-light rounded p-3">
+    <p><strong>How to Use</strong> Enter a CU Boulder identifier, for example,</p>
+    <ul>
+        <li>course number (e.g., CSCI 3010)</li>
+        <li>instructor (e.g., Sreesha Nath)</li>
+        <li>department (e.g., Computer Science)</li>
+        <li>college (e.g., Engineering)</li>
+    </ul>
+    <p>then press Submit. For added functionality, create an account and store schedules.</p>
+    <hr>
+    <p><strong>About</strong> This is a term project for CU Boulder's Intensive Programming Workshop course. It's a
+        program I've been wanting to build for a while after inspiration by a former roommate, Brandon, who I credit
+        with my interest in programming. </p>
+</div>
+{% endblock %}
