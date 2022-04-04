@@ -2,11 +2,11 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<form class="my-3 row g-3">
+<form class="my-3 row g-3" method="POST">
     <div class="col">
-        <label for="main-search" class="visually-hidden">Search</label>
-        <input type="search" class="form-control" id="main-search"
-               placeholder="Enter a CU Boulder Identifier">
+        <label for="searchquery" class="visually-hidden">Search</label>
+        <input type="search" class="form-control" id="searchquery"
+               placeholder="Enter a CU Boulder Identifier" name="searchquery">
     </div>
     <div class="col-auto">
         <button type="submit" class="btn btn-primary mb-3"><i class="bi bi-search"> </i>Submit</button>

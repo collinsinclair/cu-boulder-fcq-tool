@@ -12,7 +12,6 @@ auth = Blueprint('auth', __name__)
 def login_signup():
     if request.method == 'POST':
         username = request.form.get("username")
-
         if len(username) < 8:
             # username was too short
             flash("Username must be at least 8 characters.", category='error')
@@ -30,8 +29,9 @@ def login_signup():
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    username = request.args.get('username')
-    if request.method == 'POST':
+    username = request.args.get(
+        'username')  # get the username from the URL to pass to the template and prefill the field
+    if request.method == 'POST':  # when user submits form on this page
         username = request.form.get("username")
         password = request.form.get('password')
 
@@ -57,6 +57,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash("You have been logged out.", category='success')
     return redirect(url_for('views.home'))
 
 
@@ -82,7 +83,7 @@ def sign_up():
             db.session.add(new_user)
             db.session.commit()
             flash('Account created!', category='success')
-            login_user(user, remember=True)
+            login_user(new_user, remember=True)
             return redirect(url_for('views.home'))
 
     return render_template("sign-up.html", user=current_user, username=username)
