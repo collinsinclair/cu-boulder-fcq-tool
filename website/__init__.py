@@ -5,7 +5,7 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-DB_NAME = "database.db"
+DB_NAME = "fcq.db"
 
 
 def create_app():
@@ -36,6 +36,11 @@ def create_app():
 
 
 def create_database(app):
+    '''
+    This shouldn't be used - the database needs to exist for the app to work (it stores the FCQ data!)
+    :param app:
+    :return:
+    '''
     if not path.exists('website/' + DB_NAME):
         db.create_all(app=app)
         print("Database created.")
