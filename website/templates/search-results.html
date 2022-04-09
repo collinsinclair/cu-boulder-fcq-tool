@@ -3,10 +3,14 @@
 
 {% block content %}
 <h1 class="my-5">Search Results</h1>
+<h2>Summary Results</h2>
+<p class="lead">Coming soon!</p>
+<h2>Full Results</h2>
 <div class="accordion">
     <div class="accordion-item">
         <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
                     aria-expanded="true" aria-controls="collapseOne">
                 See Full Results
             </button>
@@ -50,8 +54,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% if result %}
-                        {% for row in result %}
+                        {% if raw_result %}
+                        {% for row in raw_result %}
                         <tr>
                             {% for col in row %}
                             <td>{{ col }}</td>
