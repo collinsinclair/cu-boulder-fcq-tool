@@ -4,7 +4,7 @@ class Section:
                  interest, challenge, learned, course_rating, effect, availability, respect, instructor, course_err,
                  instructor_err):
         self.term = term  # fall, spring, summer
-        self.year = year  # 4-digit year (e.g., 2019)
+        self.year = int(year)  # 4-digit year (e.g., 2019)
         self.campus = campus  # BD = Boulder, CE = Continuing Education
         self.college = college  # 4-letter college code (e.g., BUSN = Business)
         # abbreviated department code (e.g., MB = music)
@@ -23,11 +23,11 @@ class Section:
         # Lower (1xxx-2xxx), Upper (3xxx,4xxx), or Graduate (5xxx+)
         self.courseLevel = course_level
         self.online = online  # Y = FCQs were administered online
-        self.enrollment = enroll  # number of students enrolled in the course
-        self.responses = num_resp  # number of students who completed FCP
+        self.enrollment = int(enroll)  # number of students enrolled in the course
+        self.responses = int(num_resp)  # number of students who completed FCP
         self.responseRate = resp_rate  # percentage of students who completed FCQ
 
-        self.hoursPerWeek = hours_per_week
+        self.hoursPerWeek = float(hours_per_week)
         # 1.0-1.9 = 0-3 hours per week
         # 2.0-2.9 = 4-6 hours per week
         # 3.0-3.9 = 7-9 hours per week
@@ -35,17 +35,17 @@ class Section:
         # 5.0-5.9 = 13-15 hours per week
         # 6.0 = 16+ hours per week
 
-        self.interest = interest  # Scale: 1 = lowest, 6 = highest
-        self.challenge = challenge  # Scale: 1 = lowest, 6 = highest
-        self.learned = learned  # Scale: 1 = lowest, 6 = highest
-        self.courseRating = course_rating  # Scale: 1 = lowest, 6 = highest
-        self.effect = effect  # Scale: 1 = lowest, 6 = highest
-        self.instructorAvailability = availability  # Scale: 1 = lowest, 6 = highest
-        self.instructorRespect = respect  # Scale: 1 = lowest, 6 = highest
-        self.instructorRating = instructor  # Scale: 1 = lowest, 6 = highest
-        self.stdCourseRating = course_err  # standard deviation of course rating
+        self.interest = float(interest)  # Scale: 1 = lowest, 6 = highest
+        self.challenge = float(challenge)  # Scale: 1 = lowest, 6 = highest
+        self.learned = float(learned)  # Scale: 1 = lowest, 6 = highest
+        self.courseRating = float(course_rating)  # Scale: 1 = lowest, 6 = highest
+        self.effect = float(effect)  # Scale: 1 = lowest, 6 = highest
+        self.instructorAvailability = float(availability)  # Scale: 1 = lowest, 6 = highest
+        self.instructorRespect = float(respect)  # Scale: 1 = lowest, 6 = highest
+        self.instructorRating = float(instructor)  # Scale: 1 = lowest, 6 = highest
+        self.stdCourseRating = float(course_err)  # standard deviation of course rating
         # standard deviation of instructor rating
-        self.stdInstructorRating = instructor_err
+        self.stdInstructorRating = float(instructor_err)
 
 
 class Sections:
