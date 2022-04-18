@@ -33,8 +33,10 @@ def search_results():
 
     sections = split_by_section(result_set)
     instructors = get_instructors_by_section(sections)
+    course_names = get_course_names(result_set)
     return render_template("search-results.html", user=current_user, raw_result=result_set, sections=sections,
-                           course=search_obj.subject + " " + str(search_obj.course), instructors=instructors)
+                           course=search_obj.subject + " " + str(search_obj.course), instructors=instructors,
+                           cnames=course_names)
 
 
 def split_by_section(result_set):
@@ -59,3 +61,13 @@ def get_instructors_by_section(sections):
     for section in instructors:
         instructors[section].sort()
     return instructors
+
+
+def get_course_names(result_set):
+    course_names = []
+    for row in result_set:
+        name = row.CrseTitle.strip()
+        if name not in course_names:
+            course_names.append(name)
+    course_names.sort()
+    return course_names

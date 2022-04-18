@@ -3,6 +3,12 @@
 
 {% block content %}
 <h1 class="my-5">{{ course }}</h1>
+<p><strong>Past names:</strong></p>
+<ul>
+    {% for cname in cnames%}
+    <li>{{ cname }}</li>
+    {% endfor %}
+</ul>
 <div class="row">
     <h2 class="col-sm">Summary Results</h2>
     <div class="col-sm">
@@ -23,7 +29,7 @@
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                        Select an Instructor
+                        All Instructors
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         {% for instr in instructors[ctype] %}
