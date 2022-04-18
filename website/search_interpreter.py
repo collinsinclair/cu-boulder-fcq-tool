@@ -10,10 +10,11 @@ class Search:
         self.college = None
         self.course = None
         self.subject = None
+        self.subjects = []
         self.user_search = user_search
         self.colleges = {"arts sciences arsc": "ARSC", "leeds business busn": "BUSN", "education educ": "EDUC",
                          "engineering engr": "ENGR", "environmental design env environment": "APRL", "law laws": "LAWS",
-                         "media communication information csci info": "CMCI", "music musc": "MUSC"}
+                         "media communication information cmci info": "CMCI", "music musc": "MUSC"}
 
     def parse_course(self):
         """
@@ -46,10 +47,10 @@ class Search:
         the first column 
         """
         self.departments = {}
-        with open("fcq_departments.csv", "r") as f:
+        with open("website/fcq_departments.csv", "r") as f:
             reader = csv.reader(f)
             for row in reader:
-                self.departments[row[1]] = row[0]
+                self.departments[row[0] + " " + row[1]] = row[0]
 
     def parse_department(self):
         """
@@ -62,7 +63,8 @@ class Search:
             dept_words = dept_word_list.split()
             for word in dept_words:
                 if word.lower() in user_words:
-                    self.department.append(self.departments[dept_word_list])
+                    # add the key to the value in the departments dictionary
+                    self.department = self.departments[dept_word_list]
 
     def parse_instructor(self):
         """
@@ -76,7 +78,7 @@ class Search:
         runs all parsing functions in order, stops if any of the fields are not None
         """
         self.parse_course()
-        self.parse_college()
-        self.parse_department()
-        if self.department is None and self.course is None and self.subject is None and self.college is None:
-            self.parse_instructor()
+        # self.parse_college()
+        # self.parse_department()
+        # if self.department is None and self.course is None and self.subject is None and self.college is None:
+        #     self.parse_instructor()

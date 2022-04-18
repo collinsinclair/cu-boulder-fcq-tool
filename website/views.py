@@ -20,8 +20,9 @@ def home():
 @views.route('/search-results', methods=['GET', 'POST'])
 def search_results():
     user_query_ = request.args.get('userQuery')
+    pname = request.args.get('pname')
     search_obj = Search(user_query_)
-    search_obj.parse_all()
+    search_obj.parse_all()  # right now, this is really just parsing the subject and course number
     engine = db.create_engine('sqlite:///website/fcq.db')
     connection = engine.connect()
     metadata = db.MetaData()
@@ -30,4 +31,31 @@ def search_results():
     result_proxy = connection.execute(query)
     result_set = result_proxy.fetchall()
 
-    return render_template("search-results.html", user=current_user, raw_result=result_set)
+    sections = split_by_section(result_set)
+    instructors = get_instructors_by_section(sections)
+    return render_template("search-results.html", user=current_user, raw_result=result_set, sections=sections,
+                           course=search_obj.subject + " " + str(search_obj.course), instructors=instructors)
+
+
+def split_by_section(result_set):
+    sections = {}
+    for row in result_set:
+        crse_type = row.CrseType.strip()
+        if crse_type not in sections:
+            sections[crse_type] = []
+        sections[crse_type].append(row)
+    return sections
+
+
+def get_instructors_by_section(sections):
+    instructors = {}
+    for section in sections:
+        instructors[section] = []
+        for row in sections[section]:
+            name = row.InstructorName.strip()
+            if name not in instructors[section]:
+                instructors[section].append(name)
+    # sort each of the lists alphabetically
+    for section in instructors:
+        instructors[section].sort()
+    return instructors
