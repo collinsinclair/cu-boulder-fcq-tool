@@ -2,7 +2,7 @@
 {% block title%}Search Results{% endblock %}
 
 {% block content %}
-<h1 class="my-5">{{ course }}</h1>
+<h1 class="my-3">{{ course }}</h1>
 <p><strong>Past names:</strong></p>
 <ul>
     {% for cname in cnames%}
@@ -12,7 +12,7 @@
 <div class="row">
     <h2 class="col-sm">Summary Results</h2>
     <div class="col-sm">
-        <button type="button" class="btn btn-primary  float-end">Add to Schedule</button>
+        <button type="button" class="btn btn-primary  float-end"><i class="bi bi-plus-square me-2"></i>Add to Schedule</button>
     </div>
 </div>
 <div class="accordion" id="accordionExample">
