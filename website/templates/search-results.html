@@ -17,6 +17,18 @@
         </button>
     </div>
 </div>
+<div class="row">
+    <div class="col-auto">
+        <p class="card-text lead ">A typical student will spend...</p>
+        <ul class="list-group my-3">
+            <li class="list-group-item">{{ hpw_total[0] }} hours in the fall</li>
+            <li class="list-group-item">{{ hpw_total[1] }} hours in the spring</li>
+            <li class="list-group-item">{{ hpw_total[2] }} hours in the summer</li>
+        </ul>
+        <p>on this class <strong>per week</strong> across all sections (e.g., lecture + recitation, etc.).</p>
+    </div>
+</div>
+
 <div class="accordion" id="accordionExample">
     {% for ctype in sections %}
     <div class="accordion-item">
@@ -41,7 +53,32 @@
                 </div>
             </div>
             <div class=" row row-cols-xl-3">
-                <img src='data:image/png;base64,{{ hours_per_week_figs[ctype] }}' class="col img-fluid"/>
+                <div class="col">
+                    <img src='data:image/png;base64,{{ hours_per_week_figs[ctype] }}' class="img-fluid"/>
+                    <table class="table mx-3">
+                        <thead>
+                        <tr>
+                            <th scope="col">Term</th>
+                            <th scope="col">Hours Per Week</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">Fall</th>
+                            <td>{{ hpw_means[ctype][0] }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Spring</th>
+                            <td>{{ hpw_means[ctype][1] }}</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">Summer</th>
+                            <td>{{ hpw_means[ctype][2] }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

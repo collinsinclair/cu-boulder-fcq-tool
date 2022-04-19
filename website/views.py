@@ -38,11 +38,22 @@ def search_results():
     instructors = get_instructors_by_section(sections)
     course_names = get_course_names(result_set)
     hours_per_week_figs = {}
+    hpw_means_per_section = {}
     for section in sections:
-        hours_per_week_figs[section] = plot_hrs_per_week(sections[section])
+        years, hrs_per_week, hpw_mean_list = prepare_lists(sections[section])
+        hpw_means_per_section[section] = hpw_mean_list
+        hours_per_week_figs[section] = plot_hrs_per_week(years, hrs_per_week)
+    hpw_means_total = [0, 0, 0]
+    for section in hpw_means_per_section:
+        for i in range(3):
+            if not np.isnan(hpw_means_per_section[section][i]):
+                hpw_means_total[i] += hpw_means_per_section[section][i]
+    for i in range(len(hpw_means_total)):
+        hpw_means_total[i] = round(hpw_means_total[i], 2)
     return render_template("search-results.html", user=current_user, raw_result=result_set, sections=sections,
                            course=search_obj.subject + " " + str(search_obj.course), instructors=instructors,
-                           cnames=course_names, hours_per_week_figs=hours_per_week_figs)
+                           cnames=course_names, hours_per_week_figs=hours_per_week_figs,
+                           hpw_means=hpw_means_per_section, hpw_total=hpw_means_total)
 
 
 def split_by_section(result_set):
@@ -134,7 +145,7 @@ def average_years(years, hours):
     return years_list, hours_list
 
 
-def plot_hrs_per_week(result_set):
+def prepare_lists(result_set):
     # first, order the rows by year and season
     result_set.sort(key=lambda x: (int(x.Year) + convert_season_to_year(x.Term)))
     hrs_per_week = [[], [], []]  # [fall, spring, summer]
@@ -145,9 +156,24 @@ def plot_hrs_per_week(result_set):
     # now average the hours per week for each season
     for i in range(3):
         years[i], hrs_per_week[i] = average_years(years[i], hrs_per_week[i])
+    # compute mean of most recent 3 years for each season
+    hpw_means = []
+    for i in range(3):
+        current_list = hrs_per_week[i].copy()
+        last_3 = []
+        while (len(last_3) < 3) and (len(current_list) > 0):
+            val = current_list.pop()
+            if not np.isnan(val):
+                last_3.append(val)
+        print(last_3)
+        hpw_means.append(round(np.mean(last_3), 2))
+    return years, hrs_per_week, hpw_means
+
+
+def plot_hrs_per_week(years, hrs_per_week):
+    seasons = ['Fall', 'Spring', 'Summer']
     fig = Figure()
     ax = fig.subplots()
-    seasons = ['Fall', 'Spring', 'Summer']
     for i in range(3):
         ax.plot(years[i], hrs_per_week[i], label=seasons[i], linestyle='-', marker='o')
     ax.set_xlabel('Year')
