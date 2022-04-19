@@ -2,10 +2,10 @@
 {% block title%}Search Results{% endblock %}
 
 {% block content %}
-<h1 class="my-3">{{ course }}</h1>
+<h1 class="my-3">{{ course.courseTitle }}</h1>
 <p><strong>Past names:</strong></p>
 <ul>
-    {% for cname in cnames%}
+    {% for cname in course.course_names%}
     <li>{{ cname }}</li>
     {% endfor %}
 </ul>
@@ -21,16 +21,16 @@
     <div class="col-auto">
         <p class="card-text lead ">A typical student will spend...</p>
         <ul class="list-group my-3">
-            <li class="list-group-item">{{ hpw_total[0] }} hours in the fall</li>
-            <li class="list-group-item">{{ hpw_total[1] }} hours in the spring</li>
-            <li class="list-group-item">{{ hpw_total[2] }} hours in the summer</li>
+            <li class="list-group-item">{{ course.hpw_means_total[0] }} hours in the fall</li>
+            <li class="list-group-item">{{ course.hpw_means_total[1] }} hours in the spring</li>
+            <li class="list-group-item">{{ course.hpw_means_total[2] }} hours in the summer</li>
         </ul>
         <p>on this class <strong>per week</strong> across all sections (e.g., lecture + recitation, etc.).</p>
     </div>
 </div>
 
 <div class="accordion" id="accordionExample">
-    {% for ctype in sections %}
+    {% for ctype in course.sections %}
     <div class="accordion-item">
         <h2 class="accordion-header" id="headingOne">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{ ctype }}"
@@ -46,7 +46,7 @@
                         All Instructors
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        {% for instr in instructors[ctype] %}
+                        {% for instr in course.instructors[ctype] %}
                         <li><a class="dropdown-item" href="#">{{ instr }}</a></li>
                         {% endfor %}
                     </ul>
@@ -54,7 +54,7 @@
             </div>
             <div class=" row row-cols-xl-3">
                 <div class="col">
-                    <img src='data:image/png;base64,{{ hours_per_week_figs[ctype] }}' class="img-fluid"/>
+                    <img src='data:image/png;base64,{{ course.hours_per_week_figs[ctype] }}' class="img-fluid"/>
                     <table class="table mx-3">
                         <thead>
                         <tr>
@@ -65,16 +65,16 @@
                         <tbody>
                         <tr>
                             <th scope="row">Fall</th>
-                            <td>{{ hpw_means[ctype][0] }}</td>
+                            <td>{{ course.hpw_means_per_section[ctype][0] }}</td>
                         </tr>
                         <tr>
                             <th scope="row">Spring</th>
-                            <td>{{ hpw_means[ctype][1] }}</td>
+                            <td>{{ course.hpw_means_per_section[ctype][1] }}</td>
 
                         </tr>
                         <tr>
                             <th scope="row">Summer</th>
-                            <td>{{ hpw_means[ctype][2] }}</td>
+                            <td>{{ course.hpw_means_per_section[ctype][2] }}</td>
                         </tr>
                         </tbody>
                     </table>
