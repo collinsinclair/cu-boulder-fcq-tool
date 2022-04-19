@@ -83,7 +83,7 @@ def plot_hrs_per_week(years, hrs_per_week):
     ax.set_ylabel('Hours Per Week')
     ax.legend()
     buf = BytesIO()
-    fig.savefig(buf, format="png")
+    fig.savefig(buf, format="png", dpi=300)
     # Embed the result in the html output.
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
     return data
@@ -105,8 +105,11 @@ def average_years(years, hours):
         corresponding_hours = []
         for i in range(len(years)):
             if years[i] == year:
-                corresponding_hours.append(hours[i])
-        hours_list.append(np.mean(corresponding_hours))
+                try:
+                    corresponding_hours.append(float(hours[i]))
+                except ValueError:
+                    corresponding_hours.append(np.NaN)
+        hours_list.append(np.nanmean(corresponding_hours))
     return years_list, hours_list
 
 
@@ -134,15 +137,34 @@ def prepare_lists(result_set):
     return years, hrs_per_week, hpw_means
 
 
+def prepare_lists_for_challenge(result_set):
+    # first, order the rows by year and season
+    result_set.sort(key=lambda x: (int(x.Year) + convert_season_to_year(x.Term)))
+    challenge = [[], [], []]  # [fall, spring, summer]
+    years = [[], [], []]  # [fall, spring, summer]
+    for row in result_set:
+        challenge[convert_season_to_index(row.Term)].append(row.Challenge)
+        years[convert_season_to_index(row.Term)].append(int(row.Year))
+    # now average the challenge for each season
+    for i in range(3):
+        years[i], challenge[i] = average_years(years[i], challenge[i])
+    return years, challenge
+
+
 class Course:
-    def __init__(self, result_set, subject, course_number):
+    def __init__(self, result_set, subject, course_number, comparison_set):
         self.result_set = result_set
+        self.comparison_set = comparison_set
+        self.comparison_sections = split_by_section(comparison_set)
+        self.comparison = Comparison(comparison_set)
         self.courseTitle = subject + " " + str(course_number)
         self.sections = split_by_section(self.result_set)
         self.instructors = get_instructors_by_section(self.sections)
         self.course_names = get_course_names(self.result_set)
         self.hours_per_week_figs = {}
         self.hpw_means_per_section = {}
+        self.challenge_per_section = self.get_challenge_per_section()
+        self.challenge_figs_per_section = self.plot_challenge_comparison()
 
         for section in self.sections:
             years, hrs_per_week, hpw_mean_list = prepare_lists(self.sections[section])
@@ -155,3 +177,53 @@ class Course:
                     self.hpw_means_total[i] += self.hpw_means_per_section[section][i]
         for i in range(len(self.hpw_means_total)):
             self.hpw_means_total[i] = round(self.hpw_means_total[i], 2)
+
+    def get_challenge_per_section(self):
+        challenge_per_section = {}
+        for section in self.sections:
+            challenge_per_section[section] = []
+            for row in self.sections[section]:
+                # try:
+                challenge_per_section[section].append(row.Challenge)
+                # except ValueError:
+                #     challenge_per_section[section].append(float(row.Challenge))
+        return challenge_per_section
+
+    def plot_challenge_comparison(self):
+        challenges_per_section = {}
+        for section in self.sections:
+            single_years, single_challenge = prepare_lists_for_challenge(self.sections[section])
+            years, challenge = prepare_lists_for_challenge(self.comparison_sections[section])
+            fig = Figure()
+            ax = fig.subplots(3, 1, sharex='col')
+            seasons = ['Fall', 'Spring', 'Summer']
+            for i in range(3):
+                ax[i].plot(single_years[i], single_challenge[i], label=f'{self.courseTitle}', linestyle='-',
+                           marker='o')
+                ax[i].plot(years[i], challenge[i], label=f'Department', linestyle='-', marker='o')
+                ax[i].set_title(seasons[i])
+            ax[0].legend()
+            ax[2].set_xlabel('Year')
+            fig.supylabel('Challenege')
+            buf = BytesIO()
+            fig.tight_layout()
+            fig.savefig(buf, format="png", dpi=300)
+            # Embed the result in the html output.
+            data = base64.b64encode(buf.getbuffer()).decode("ascii")
+            challenges_per_section[section] = data
+        return challenges_per_section
+
+
+class Comparison:
+    def __init__(self, result_set):
+        self.result_set = result_set
+        self.sections = split_by_section(self.result_set)
+        self.challenge_per_section = self.get_challenge_per_section()
+
+    def get_challenge_per_section(self):
+        challenge_per_section = {}
+        for section in self.sections:
+            challenge_per_section[section] = []
+            for row in self.sections[section]:
+                challenge_per_section[section].append(row.Challenge)
+        return challenge_per_section

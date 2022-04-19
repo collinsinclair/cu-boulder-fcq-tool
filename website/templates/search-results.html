@@ -52,10 +52,11 @@
                     </ul>
                 </div>
             </div>
-            <div class=" row row-cols-xl-3">
+            <div class="row row-cols-1 row-cols-lg-2">
                 <div class="col">
+                    <h3 class="text-center">Time Commitment</h3>
                     <img src='data:image/png;base64,{{ course.hours_per_week_figs[ctype] }}' class="img-fluid"/>
-                    <table class="table mx-3">
+                    <table class="table mx-lg-3">
                         <thead>
                         <tr>
                             <th scope="col">Term</th>
@@ -79,7 +80,20 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="col">
+                    <h3 class="text-center">Challenge</h3>
+                    <img src='data:image/png;base64,{{ course.challenge_figs_per_section[ctype] }}' class="img-fluid"/>
+                    <p class="m-3">The plots above show the student-reported "Challenge" for <strong>{{
+                        course.courseTitle }}</strong> against all the {{ course.courseTitle[5] }}xxx-level {{
+                        course.courseTitle[:4] }} courses for each term.</p>
+                </div>
             </div>
+            <hr class="mx-3">
+            <p class="mx-3"><strong>Note: </strong>A missing line for a given term indicates that there are no
+                responses for that term (which implies that the course isn't offered then!). Also, if all three
+                terms are present in the <strong>time commitment</strong> plot but you only see one for a given
+                term in the <strong>challenge</strong> plots, {{ course.courseTitle }} is likely the only {{
+                course.courseTitle[5] }}xxx-level course taught during that term.</p>
         </div>
     </div>
     {% endfor %}
@@ -87,7 +101,7 @@
 
 
 <h2 class="mt-3">Full Results</h2>
-<div class="accordion">
+<div class="accordion mb-5">
     <div class="accordion-item">
         <h2 class="accordion-header" id="full_results_heading">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"

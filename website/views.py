@@ -4,7 +4,7 @@ from flask_login import current_user
 from sqlalchemy import and_
 
 from .search_interpreter import Search
-from .course import Course
+from .course import Course, Comparison
 
 views = Blueprint('views', __name__)
 
@@ -30,21 +30,12 @@ def search_results():
     query = db.select([fcq]).where(and_(fcq.c.Sbjct == search_obj.subject, fcq.c.Crse == search_obj.course))
     result_proxy = connection.execute(query)
     result_set = result_proxy.fetchall()
-    course = Course(result_set, search_obj.subject, search_obj.course)
-    # sections = split_by_section(result_set)
-    # instructors = get_instructors_by_section(sections)
-    # course_names = get_course_names(result_set)
-    # hours_per_week_figs = {}
-    # hpw_means_per_section = {}
-    # for section in sections:
-    #     years, hrs_per_week, hpw_mean_list = prepare_lists(sections[section])
-    #     hpw_means_per_section[section] = hpw_mean_list
-    #     hours_per_week_figs[section] = plot_hrs_per_week(years, hrs_per_week)
-    # hpw_means_total = [0, 0, 0]
-    # for section in hpw_means_per_section:
-    #     for i in range(3):
-    #         if not np.isnan(hpw_means_per_section[section][i]):
-    #             hpw_means_total[i] += hpw_means_per_section[section][i]
-    # for i in range(len(hpw_means_total)):
-    #     hpw_means_total[i] = round(hpw_means_total[i], 2)
+
+    # query that returns all the courses with the same Sbjct and thousands place of Crse (e.g., if Crse is 3010, then all courses with Crse 3xxx)
+    comparison_query = db.select([fcq]).where(
+        and_(fcq.c.Sbjct == search_obj.subject, fcq.c.Crse.like('%' + str(search_obj.course)[0] + '%')))
+    comparison_result_proxy = connection.execute(comparison_query)
+    comparison_result_set = comparison_result_proxy.fetchall()
+    course = Course(result_set, search_obj.subject, search_obj.course, comparison_result_set)
+
     return render_template("search-results.html", user=current_user, raw_result=result_set, course=course)
