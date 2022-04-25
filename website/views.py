@@ -31,7 +31,8 @@ def search_results():
     result_proxy = connection.execute(query)
     result_set = result_proxy.fetchall()
 
-    # query that returns all the courses with the same Sbjct and thousands place of Crse (e.g., if Crse is 3010, then all courses with Crse 3xxx)
+    # query that returns all the courses with the same Sbjct and thousands place of Crse (e.g., if Crse is 3010,
+    # then all courses with Crse 3xxx)
     comparison_query = db.select([fcq]).where(
         and_(fcq.c.Sbjct == search_obj.subject, fcq.c.Crse.like('%' + str(search_obj.course)[0] + '%')))
     comparison_result_proxy = connection.execute(comparison_query)
