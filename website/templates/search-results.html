@@ -50,7 +50,7 @@
                         {% for instr in course.instructors[ctype] %}
                         <li>
                             <a class="dropdown-item"
-                               href="{{ url_for('views.search_results', user=current_user, userQuery=userQuery, ctypeinst=ctype + instr) }}">{{
+                               href="{{ url_for('views.get_results', user=current_user, userQuery=userQuery, ctypeinst=ctype + instr) }}">{{
                                 instr }}</a>
                         </li>
                         {% endfor %}

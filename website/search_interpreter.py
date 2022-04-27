@@ -15,6 +15,7 @@ class Search:
         self.colleges = {"arts sciences arsc": "ARSC", "leeds business busn": "BUSN", "education educ": "EDUC",
                          "engineering engr": "ENGR", "environmental design env environment": "APRL", "law laws": "LAWS",
                          "media communication information cmci info": "CMCI", "music musc": "MUSC"}
+        self.parse_all()
 
     def parse_course(self):
         """
@@ -24,7 +25,8 @@ class Search:
         astr3520, ASTR3520, astr 3520, ASTR 3520 => self.subject = "ASTR", self.course = 3520
         anth1170, ANTH1170, anth 1170, ANTH 1170 => self.subject = "ANTH", self.course = 1170
         """
-        if self.user_search[:4].isalpha() and self.user_search[-4:].isnumeric():
+        if self.user_search[:4].isalpha() and self.user_search[-4:].isnumeric() and (
+                len(self.user_search) == 8 or len(self.user_search) == 9):
             self.subject = self.user_search[:4].upper()
             self.course = int(self.user_search[-4:])
 
