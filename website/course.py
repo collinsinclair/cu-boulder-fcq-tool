@@ -6,6 +6,11 @@ from matplotlib.figure import Figure
 
 
 def split_by_section(result_set):
+    """
+    Splits the result set into a dictionary of sections, where each section is a list of rows.
+    :param result_set: list
+    :return: dictionary
+    """
     sections = {}
     for row in result_set:
         crse_type = row.CrseType.strip()
@@ -18,6 +23,12 @@ def split_by_section(result_set):
 
 
 def get_instructors_by_section(sections):
+    """
+    Returns a dictionary of sections, where each section is a list of the (unique) instructors who have taught that
+    section.
+    :param sections: dictionary
+    :return: dictionary
+    """
     instructors = {}
     for section in sections:
         instructors[section] = []
@@ -32,6 +43,11 @@ def get_instructors_by_section(sections):
 
 
 def get_course_names(result_set):
+    """
+    Returns a list of the course names in the result set.
+    :param result_set: list
+    :return: list
+    """
     course_names = []
     for row in result_set:
         name = row.CrseTitle.strip()
@@ -42,6 +58,11 @@ def get_course_names(result_set):
 
 
 def convert_scale_to_hours(scale_number):
+    """
+    Converts the 1-6 Likert score from the FCQ data to hours
+    :param scale_number: float
+    :return: float
+    """
     try:
         scale_number = float(scale_number)
     except ValueError:
@@ -61,6 +82,11 @@ def convert_scale_to_hours(scale_number):
 
 
 def convert_season_to_year(season):
+    """
+    For plotting - converts a season to a fraction of the way through a year
+    :param season: string
+    :return: float
+    """
     if season == 'Fall':
         return 0.75
     elif season == 'Spring':
@@ -70,6 +96,11 @@ def convert_season_to_year(season):
 
 
 def convert_season_to_index(season):
+    """
+
+    :param season:
+    :return:
+    """
     return {'Fall': 0, 'Spring': 1, 'Summer': 2}[season]
 
 
@@ -165,6 +196,7 @@ class Course:
         self.hpw_means_per_section = {}
         self.challenge_per_section = self.get_challenge_per_section()
         self.challenge_figs_per_section = self.plot_challenge_comparison()
+        self.preferred_instructor = {}
 
         for section in self.sections:
             years, hrs_per_week, hpw_mean_list = prepare_lists(self.sections[section])
@@ -212,6 +244,9 @@ class Course:
             data = base64.b64encode(buf.getbuffer()).decode("ascii")
             challenges_per_section[section] = data
         return challenges_per_section
+
+    def set_preferred_instructor(self, section, instructor_name):
+        self.preferred_instructor[section] = instructor_name
 
 
 class Comparison:
