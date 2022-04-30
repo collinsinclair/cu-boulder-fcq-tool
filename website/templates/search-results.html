@@ -3,6 +3,9 @@
 
 {% block content %}
 <h1 class="my-3">{{ course.courseTitle }}</h1>
+{% if refined %}
+<p>where <strong>{{ instr }}</strong> taught <strong>{{ crse_type}}</strong>.</p>
+{% endif %}
 <p><strong>Past names:</strong></p>
 <ul>
     {% for cname in course.course_names%}
@@ -12,21 +15,43 @@
 <div class="row">
     <h2 class="col-sm">Summary Results</h2>
     <div class="col-sm">
-        <a type="button" class="btn btn-outline-primary float-sm-end my-2"><i
-                class="bi bi-plus-square me-2"></i>Add to
-            Schedule
-        </a>
+        <button type="button" class="btn btn-outline-primary float-sm-end my-2" data-bs-toggle="modal"
+                data-bs-target="addCourseModal"><i
+                class="bi bi-plus-square me-2"></i>Add to Schedule
+        </button>
+        <div class="modal fade" id="addCourseModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-auto">
-        <p class="card-text lead ">A typical student will spend...</p>
+    <div class="col">
         <ul class="list-group my-3">
-            <li class="list-group-item">{{ course.hpw_means_total[0] }} hours in the fall</li>
-            <li class="list-group-item">{{ course.hpw_means_total[1] }} hours in the spring</li>
-            <li class="list-group-item">{{ course.hpw_means_total[2] }} hours in the summer</li>
+            <li class="list-group-item">
+                <strong class="lead me-2">Fall</strong>{{ course.hpw_means_total[0] }} hours total;
+            </li>
+            <li class="list-group-item">
+                <strong class="lead me-2">Spring</strong>{{ course.hpw_means_total[1] }} hours total;
+            </li>
+            <li class="list-group-item">
+                <strong class="lead me-2">Summer</strong>{{ course.hpw_means_total[2] }} hours total;
+            </li>
         </ul>
-        <p>on this class <strong>per week</strong> across all sections (e.g., lecture + recitation, etc.).</p>
     </div>
 </div>
 
@@ -47,10 +72,15 @@
                         All Instructors
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li>
+                            <a class="dropdown-item"
+                               href="{{ url_for('views.get_results', user=current_user, user_query=userQuery) }}">All
+                                Instructors</a>
+                        </li>
                         {% for instr in course.instructors[ctype] %}
                         <li>
                             <a class="dropdown-item"
-                               href="{{ url_for('views.get_results', user=current_user, userQuery=userQuery, ctypeinst=ctype + instr) }}">{{
+                               href="{{ url_for('views.get_results', user=current_user, user_query=userQuery, ctype=ctype, instr = instr) }}">{{
                                 instr }}</a>
                         </li>
                         {% endfor %}
