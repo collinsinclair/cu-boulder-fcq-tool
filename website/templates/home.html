@@ -6,10 +6,12 @@
     <div class="col">
         <label for="searchquery" class="visually-hidden">Search</label>
         <input type="search" class="form-control" id="searchquery"
-               placeholder="Enter a CU Boulder Identifier" name="searchquery">
+               placeholder="Enter a CU Boulder Course Identifier" name="searchquery">
     </div>
     <div class="col-auto">
-        <button type="submit" class="btn btn-primary mb-3"><i class="bi bi-search"> </i>Submit</button>
+        <button type="submit" class="btn btn-primary mb-3" id="submitSearch" onclick="showLoading()"><i
+                class="bi bi-search"> </i>Submit
+        </button>
     </div>
 </form>
 <div class="bg-light rounded p-3">
@@ -28,4 +30,15 @@
     <p><strong class="me-2">About</strong>This is a term project for CU Boulder's Intensive Programming Workshop course
         (CSCI 3010). Original idea by Brandon Korb: a close friend of mine who sparked my interest in programming.</p>
 </div>
+<script>
+    function showLoading() {
+        let submitButton = document.querySelector('#submitSearch')
+        submitButton.classList.add('disabled')
+        submitButton.innerHTML = `
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+        `
+    }
+</script>
+
 {% endblock %}
