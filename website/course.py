@@ -102,7 +102,7 @@ class Course:
             self.hpw_means_per_section[section] = hpw_mean_list
             self.hours_per_week_figs[section] = self.plot_by_term(years, hrs_per_week, "Hours Per Week")
 
-        self.hpw_means_total = [0, 0, 0]
+        self.hpw_means_total = np.array([0.0, 0.0, 0.0])
         for section in self.hpw_means_per_section:
             for i in range(3):
                 if not np.isnan(self.hpw_means_per_section[section][i]):  # if not a nan

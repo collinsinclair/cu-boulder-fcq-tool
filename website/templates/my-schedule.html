@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title%}My Schedule{% endblock %}
+
+{% block content %}
+<h1 class="my-3">My Schedule</h1>
+<h2>Total Weekly Time Commitment</h2>
+<div class="row">
+    <div class="col">
+        <ul class="list-group my-3">
+            <li class="list-group-item">
+                <strong class="lead me-2">Fall</strong>{{ total_hours[0] }} hours
+            </li>
+            <li class="list-group-item">
+                <strong class="lead me-2">Spring</strong>{{ total_hours[1] }} hours
+            </li>
+            <li class="list-group-item">
+                <strong class="lead me-2">Summer</strong>{{ total_hours[2] }} hours
+            </li>
+        </ul>
+    </div>
+</div>
+{% if courses %}
+<h2 class="my-2">My Courses</h2>
+<div class="row row-cols-1 row-cols-lg-3 g-3">
+    {% for course in courses %}
+    <div class="col">
+        <div class="card">
+            <!--  <img src="..." class="card-img-top" alt="...">-->
+            <div class="card-body">
+                <h5 class="card-title">{{ course.courseTitle }}</h5>
+<!--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+<!--                    card's content.</p>-->
+                <a href="{{ url_for('views.get_results', user=current_user, user_query=course.courseTitle[:4]+course.courseTitle[-4:]) }}"
+                   class="btn btn-primary">See full results</a>
+                <a href="{{ url_for('views.remove_course', user=current_user, subject=course.courseTitle[:4], number=course.courseTitle[-4:]) }}"
+                   class="btn btn-secondary"><i class="bi bi-x-lg me-2"></i>Remove</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
